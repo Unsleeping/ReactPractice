@@ -8,17 +8,29 @@ class App extends React.Component {
         super(props);
         this.addAmount = this.addAmount.bind(this);
         this.addDescription = this.addDescription.bind(this);
+        this.delTransaction = this.delTransaction.bind(this);
         this.state = {
-            transactions: [],
+            transactions: JSON.parse(localStorage.getItem('calcMoney')) || [],
             description: '',
             amount: '',
+            resultIncome: 0,
+            resultExpenses: 0,
+            totalBalance: 0
         }
+    }
+
+    componentWillMount() {
+        this.getTotalBalance();
+    }
+
+    componentWillUpdate() {
+        this.addStorage();
     }
 
     addTransaction = (add) => {
         const transactions = [...this.state.transactions, 
             {
-                id: `cmr${(+new Date).toString(16)}`,
+                id: `cmr${(+new Date()).toString(16)}`,
                 description: this.state.description,
                 amount: this.state.amount,
                 add
@@ -28,15 +40,48 @@ class App extends React.Component {
             transactions,
             description: '',
             amount: ''
-        });
+        }, this.getTotalBalance);
     }
 
     addAmount(e) {
-        this.setState({amount: e.target.value});
+        this.setState({amount: parseFloat(e.target.value)});
     }
 
     addDescription(e) {
         this.setState({description: e.target.value});
+    }
+
+    getIncome() {
+        return this.state.transactions
+            .filter((item) => item.add)
+            .reduce((acc, item) => acc + item.amount, 0);
+    }
+
+    getExpenses() {
+        return this.state.transactions
+            .filter((item) => !item.add)
+            .reduce((acc, item) => acc + item.amount, 0);
+    }
+
+    getTotalBalance() {
+        const resultIncome = this.getIncome(),
+            resultExpenses = this.getExpenses(),
+            totalBalance = resultIncome - resultExpenses;
+        
+        this.setState({
+            resultIncome,
+            resultExpenses,
+            totalBalance
+        });
+    }
+
+    addStorage() {
+        localStorage.setItem('calcMoney', JSON.stringify(this.state.transactions));
+    }
+
+    delTransaction(key) {
+        const transactions = this.state.transactions.filter(item => item.id !== key);
+        this.setState({transactions}, this.getTotalBalance);
     }
 
     render() {
@@ -48,8 +93,15 @@ class App extends React.Component {
                 </header>
                 <main>
                     <div className="container">
-                        <Total />
-                        <History transactions={this.state.transactions} />
+                        <Total 
+                            resultExpenses={this.state.resultExpenses}
+                            resultIncome={this.state.resultIncome}
+                            totalBalance={this.state.totalBalance}
+                        />
+                        <History 
+                            transactions={this.state.transactions} 
+                            delTransaction={this.delTransaction}
+                        />
                         <Operation 
                             addTransaction={this.addTransaction} 
                             addAmount={this.addAmount} 
