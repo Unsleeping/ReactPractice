@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import './SearchPanel.scss';
 
 export default class SearchPanel extends Component {
+
   onChange = (e) => {
     const { onFilter } = this.props;
-    const value = e.target.value.toLowerCase();
+    const value = e.target.value;
     onFilter(value);
   };
 
@@ -18,4 +19,4 @@ export default class SearchPanel extends Component {
             />
     );
   }
-};
+}
