@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
+import CircleLoader from "react-spinners/CircleLoader";
 import './RandomPlanet.scss';
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
   display: block;
   margin: 0 auto;
-  border-color: red;
+  border-color: lime;
 `;
 
 export default class RandomPlanet extends Component {
@@ -16,7 +16,8 @@ export default class RandomPlanet extends Component {
   swapiService = new SwapiService();
 
   state = {
-    planet: {}
+    planet: {},
+    loading: true
   };
 
   constructor() {
@@ -39,12 +40,11 @@ export default class RandomPlanet extends Component {
 
     return (
       <div className="random-planet jumbotron rounded">
-        <Loader
-            type="Puff"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            timeout={3000} 
+        <CircleLoader
+          css={override}
+          size={200}
+          color={"teal"}
+          loading={this.state.loading}
         />
         <img className="planet-image"
               src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} />
