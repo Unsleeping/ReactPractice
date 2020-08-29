@@ -3,9 +3,9 @@ import SwapiService from '../../services/swapi-service';
 import { css } from "@emotion/core";
 import CircleLoader from "react-spinners/CircleLoader";
 import PlanetView from './PlanetView';
+import ErrorIndicator from '../ErrorIndicator';
 import './RandomPlanet.scss';
 
-// Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
   display: block;
   margin: 0 auto;
@@ -18,7 +18,8 @@ export default class RandomPlanet extends Component {
 
   state = {
     planet: {},
-    loading: true
+    loading: true,
+    error: false
   };
 
   constructor() {
@@ -33,21 +34,34 @@ export default class RandomPlanet extends Component {
     });
   };
 
+  onError = (err) => {
+    this.setState({
+      error: true,
+      loading: false
+    });
+  };
+
   updatePlanet() {
     const id = Math.floor(Math.random() * 18) + 2;
-    this.swapiService.getPlanet(id).then(this.onPlanetLoaded);
+    this.swapiService.getPlanet(id)
+      .then(this.onPlanetLoaded)
+      .catch(this.onError);
   }
 
   render() {
 
-    const { loading } = this.state;
+    const { loading, error } = this.state;
+
+    const hasData = !(loading || error);
 
     const spinner = loading ? <CircleLoader css={override} size={150} color={"teal"} loading={this.state.loading}/> : null;
-    const content = !loading ? <PlanetView planet={this.state.planet} /> : null;
+    const content = hasData? <PlanetView planet={this.state.planet} /> : null;
+    const errorMessage = error ? <ErrorIndicator /> : null;
 
     return (
       <div className="random-planet jumbotron rounded">
         {spinner}
+        {errorMessage}
         {content}
       </div>
     );
