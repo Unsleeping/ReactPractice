@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import SwapiService from '../../services/swapi-service';
+
 import { css } from "@emotion/core";
 import CircleLoader from "react-spinners/CircleLoader";
+
+import SwapiService from '../../services/swapi-service';
 import PlanetView from './PlanetView';
 import ErrorIndicator from '../ErrorIndicator';
 import './RandomPlanet.scss';
@@ -22,9 +24,9 @@ export default class RandomPlanet extends Component {
     error: false
   };
 
-  constructor() {
-    super();
-    setInterval(this.updatePlanet, 3000);
+  componentDidMount() {
+    this.updatePlanet();
+    this.interval = setInterval(this.updatePlanet, 3000);
   }
 
   onPlanetLoaded = (planet) => {
