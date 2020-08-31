@@ -57,7 +57,7 @@ export default class RandomPlanet extends Component {
     const hasData = !(loading || error);
 
     const spinner = loading ? <CircleLoader css={override} size={150} color={"teal"} loading={this.state.loading}/> : null;
-    const content = hasData? <PlanetView planet={this.state.planet} /> : null;
+    const content = hasData ? <PlanetView planet={this.state.planet} /> : null;
     const errorMessage = error ? <ErrorIndicator /> : null;
 
     return (
