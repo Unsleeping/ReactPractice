@@ -34,7 +34,8 @@ export default class App extends Component {
         <PeoplePage />
 
         <ItemList onItemSelected={this.onPersonSelected} 
-                    getData={this.swapiService.getAllPlanets} />
+                    getData={this.swapiService.getAllPlanets}
+                    renderItem={(item) => item.name} />
       </div>
     );
   }
