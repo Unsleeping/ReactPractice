@@ -1,4 +1,4 @@
-import { API_URL } from '../constants/constants';
+import { API_URL, IMG_URL } from '../constants/constants';
 
 export default class SwapiService {
   getResource = async (url) => {
@@ -39,6 +39,18 @@ export default class SwapiService {
   getStarship = async (id) => {
     const starship = await this.getResource(`/starships/${id}/`);
     return this._transformStarship(starship);
+  };
+
+  getPersonImage = ({id}) => {
+    return `${IMG_URL}characters/${id}.jpg`
+  };
+
+  getStarshipImage = ({id}) => {
+    return `${IMG_URL}starships/${id}.jpg`
+  };
+
+  getPlanetImage = ({id}) => {
+    return `${IMG_URL}planets/${id}.jpg`
   };
 
   _extractId(item) {

@@ -7,6 +7,7 @@ import ErrorIndicator from '../ErrorIndicator';
 import PeoplePage from '../PeoplePage/PeoplePage';
 import ItemList from '../ItemList';
 import SwapiService from '../../services/swapi-service';
+import ItemDetails from '../ItemDetails';
 
 export default class App extends Component {
 
@@ -32,10 +33,15 @@ export default class App extends Component {
         <RandomPlanet />
 
         <PeoplePage />
+        
+        <ItemDetails getData={this.swapiService.getStarship}
+                      itemId={9} 
+                      getImageUrl={this.swapiService.getStarshipImage}
+                      />
 
-        <ItemList onItemSelected={this.onPersonSelected} 
+        {/* <ItemList onItemSelected={this.onPersonSelected} 
                     getData={this.swapiService.getAllPlanets}
-                    renderItem={(item) => item.name} />
+                    renderItem={(item) => item.name} /> */}
       </div>
     );
   }

@@ -9,6 +9,7 @@ export default class ItemDetails extends Component {
 
   state = {
     item: null,
+    image: null,
     loading: true
   };
 
@@ -17,19 +18,20 @@ export default class ItemDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.personId !== prevProps.personId) this.updateItem();
+    if (this.props.itemId !== prevProps.itemId) this.updateItem();
   }
   
   updateItem() {
-    const { personId } = this.props;
-    if (!personId) {
+    const { itemId, getData, getImageUrl } = this.props;
+    if (!itemId) {
       return;
     }
 
-    this.swapiService.getPerson(personId)
+    getData(itemId)
       .then((item) => {
         this.setState({ 
           item,
+          image: getImageUrl(item),
           loading: false
         });
       });
@@ -37,7 +39,9 @@ export default class ItemDetails extends Component {
 
   render() {
 
-    if (!this.state.item) {
+    const { item, image } = this.state;
+
+    if (!item) {
       return <span>Select an item from a list</span>;
     }
 
@@ -48,7 +52,7 @@ export default class ItemDetails extends Component {
     return (
       <div className="item-details card mr-5">
         <img className="item-image" alt="character"
-          src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
+          src={image} />
 
         <div className="card-body">
           <h4>{name}</h4>

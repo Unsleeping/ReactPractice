@@ -28,7 +28,9 @@ export default class PeoplePage extends Component {
                     renderItem={({name, gender, birthYear}) => `${name} (${gender}, ${birthYear})`}/>
     );
 
-    const personDetails = <ItemDetails personId={this.state.selectedPerson} />;
+    const personDetails = <ItemDetails itemId={this.state.selectedPerson}
+                                      getData={this.swapiService.getPerson}
+                                      getImageUrl={this.swapiService.getPersonImage} />;
 
     return (
       <ErrorBoundry>
