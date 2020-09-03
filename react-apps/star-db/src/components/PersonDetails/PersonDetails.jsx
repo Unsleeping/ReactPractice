@@ -54,7 +54,7 @@ export default class PersonDetails extends Component {
     if (loading) return <CircleLoader css={override} size={150} color={"teal"} loading={this.state.loading}/>
 
     return (
-      <div className="person-details card">
+      <div className="person-details card mr-5">
         <img className="person-image" alt="character"
           src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
 

@@ -16,14 +16,15 @@ export default class ItemList extends Component {
   swapiService = new SwapiService();
 
   state = {
-    peopleList: null
+    itemList: null
   };
 
   componentDidMount() {
-    this.swapiService.getAllPeople()
-      .then((peopleList) => {
+    const { getData } = this.props;
+    getData()
+      .then((itemList) => {
         this.setState({
-          peopleList
+          itemList
         });
       });
   }
@@ -40,15 +41,15 @@ export default class ItemList extends Component {
 
   render() {
 
-    const { peopleList } = this.state;
+    const { itemList } = this.state;
 
-    if (!peopleList) {
+    if (!itemList) {
       return <CircleLoader css={override} size={150} color={"teal"} loading={this.state.loading}/>;
     }
 
     return (
-      <ul className="item-list list-group" >
-        {this.renderItems(peopleList)}
+      <ul className="item-list list-group ml-5" >
+        {this.renderItems(itemList)}
       </ul>
     );
   }

@@ -5,8 +5,12 @@ import Header from '../Header';
 import RandomPlanet from '../RandomPlanet';
 import ErrorIndicator from '../ErrorIndicator';
 import PeoplePage from '../PeoplePage/PeoplePage';
+import ItemList from '../ItemList';
+import SwapiService from '../../services/swapi-service';
 
 export default class App extends Component {
+
+  swapiService = new SwapiService();
 
   state = {
     hasError: false
@@ -28,6 +32,9 @@ export default class App extends Component {
         <RandomPlanet />
 
         <PeoplePage />
+
+        <ItemList onItemSelected={this.onPersonSelected} 
+                    getData={this.swapiService.getAllPlanets} />
       </div>
     );
   }

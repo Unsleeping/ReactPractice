@@ -65,7 +65,7 @@ export default class RandomPlanet extends Component {
     const errorMessage = error ? <ErrorIndicator /> : null;
 
     return (
-      <div className="random-planet jumbotron rounded">
+      <div className="random-planet jumbotron rounded ml-5 mr-5">
         {spinner}
         {errorMessage}
         {content}
