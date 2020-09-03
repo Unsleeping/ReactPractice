@@ -1,43 +1,35 @@
 import React, { Component } from 'react';
-import './PersonDetails.scss';
+import './ItemDetails.scss';
 import SwapiService from '../../services/swapi-service';
+import Loader from '../Loader';
 
-import { css } from "@emotion/core";
-import CircleLoader from "react-spinners/CircleLoader";
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: lime;
-`;
-
-export default class PersonDetails extends Component {
+export default class ItemDetails extends Component {
 
   swapiService = new SwapiService();
 
   state = {
-    person: null,
+    item: null,
     loading: true
   };
 
   componentDidMount() {
-    this.updatePerson();
+    this.updateItem();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.personId !== prevProps.personId) this.updatePerson();
+    if (this.props.personId !== prevProps.personId) this.updateItem();
   }
   
-  updatePerson() {
+  updateItem() {
     const { personId } = this.props;
     if (!personId) {
       return;
     }
 
     this.swapiService.getPerson(personId)
-      .then((person) => {
+      .then((item) => {
         this.setState({ 
-          person,
+          item,
           loading: false
         });
       });
@@ -45,17 +37,17 @@ export default class PersonDetails extends Component {
 
   render() {
 
-    if (!this.state.person) {
-      return <span>Select a person from a list</span>;
+    if (!this.state.item) {
+      return <span>Select an item from a list</span>;
     }
 
-    const { person: { id, name, gender, birthYear, eyeColor }, loading  } = this.state;
+    const { item: { id, name, gender, birthYear, eyeColor }, loading  } = this.state;
 
-    if (loading) return <CircleLoader css={override} size={150} color={"teal"} loading={this.state.loading}/>
+    if (loading) return <Loader loading={this.state.loading}/>
 
     return (
-      <div className="person-details card mr-5">
-        <img className="person-image" alt="character"
+      <div className="item-details card mr-5">
+        <img className="item-image" alt="character"
           src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
 
         <div className="card-body">

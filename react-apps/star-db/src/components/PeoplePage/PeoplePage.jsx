@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './PeoplePage.scss';
 import ItemList from '../ItemList';
-import PersonDetails from '../PersonDetails';
+import ItemDetails from '../ItemDetails';
 import SwapiService from '../../services/swapi-service';
 import Row from '../Row';
 import ErrorBoundry from '../ErrorBoundry';
@@ -28,7 +28,7 @@ export default class PeoplePage extends Component {
                     renderItem={({name, gender, birthYear}) => `${name} (${gender}, ${birthYear})`}/>
     );
 
-    const personDetails = <PersonDetails personId={this.state.selectedPerson} />;
+    const personDetails = <ItemDetails personId={this.state.selectedPerson} />;
 
     return (
       <ErrorBoundry>

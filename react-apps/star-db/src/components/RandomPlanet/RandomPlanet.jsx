@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
-
-import { css } from "@emotion/core";
-import CircleLoader from "react-spinners/CircleLoader";
-
 import SwapiService from '../../services/swapi-service';
 import PlanetView from './PlanetView';
 import ErrorIndicator from '../ErrorIndicator';
+import Loader from '../Loader';
 import './RandomPlanet.scss';
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: lime;
-`;
 
 export default class RandomPlanet extends Component {
 
@@ -60,7 +51,7 @@ export default class RandomPlanet extends Component {
 
     const hasData = !(loading || error);
 
-    const spinner = loading ? <CircleLoader css={override} size={150} color={"teal"} loading={this.state.loading}/> : null;
+    const spinner = loading ? <Loader loading={this.state.loading}/> : null;
     const content = hasData ? <PlanetView planet={this.state.planet} /> : null;
     const errorMessage = error ? <ErrorIndicator /> : null;
 

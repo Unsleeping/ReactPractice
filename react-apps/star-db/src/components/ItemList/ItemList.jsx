@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import './ItemList.scss';
 import SwapiService from '../../services/swapi-service';
-
-import { css } from "@emotion/core";
-import CircleLoader from "react-spinners/CircleLoader";
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: lime;
-`;
+import Loader from '../Loader';
 
 export default class ItemList extends Component {
 
@@ -47,7 +39,7 @@ export default class ItemList extends Component {
     const { itemList } = this.state;
 
     if (!itemList) {
-      return <CircleLoader css={override} size={150} color={"teal"} loading={this.state.loading}/>;
+      return <Loader loading={this.state.loading}/>;
     }
 
     return (
