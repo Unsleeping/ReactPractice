@@ -5,7 +5,7 @@ import ItemDetails from '../ItemDetails';
 import SwapiService from '../../services/swapi-service';
 import Row from '../Row';
 import ErrorBoundry from '../ErrorBoundry';
-import Record from './Record';
+import Record from '../Record';
 
 export default class PeoplePage extends Component {
 

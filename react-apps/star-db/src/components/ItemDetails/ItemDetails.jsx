@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import './ItemDetails.scss';
-import SwapiService from '../../services/swapi-service';
 import Loader from '../Loader';
 
 export default class ItemDetails extends Component {
-
-  swapiService = new SwapiService();
 
   state = {
     item: null,
@@ -45,7 +42,7 @@ export default class ItemDetails extends Component {
       return <span>Select an item from a list</span>;
     }
 
-    const { item: { id, name, gender, birthYear, eyeColor }, loading  } = this.state;
+    const { item: { name }, loading  } = this.state;
 
     if (loading) return <Loader loading={this.state.loading}/>
 
