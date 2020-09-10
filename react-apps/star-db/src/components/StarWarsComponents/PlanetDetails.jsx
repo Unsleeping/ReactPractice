@@ -3,18 +3,21 @@ import ItemDetails from '../ItemDetails';
 import { WithSwapiService } from '../HOCHelpers';
 import Record from '../Record';
 
-const PlanetDetails = ({ itemId, swapiService }) => {
-  const { getPlanetImage, getPlanet } = swapiService;
+const PlanetDetails = (props) => {
   return (
-    <ItemDetails 
-        itemId={itemId}
-        getData={getPlanet}
-        getImageUrl={getPlanetImage}>
-      <Record field="gender" label="Gender"/>
-      <Record field="birthYear" label="Birth Year"/>
-      <Record field="eyeColor" label="Eye Color"/>
+    <ItemDetails {...props} >
+      <Record field="population" label="Population" />
+      <Record field="rotationPeriod" label="Rotation Period" />
+      <Record field="diameter" label="Diameter" />
     </ItemDetails>
   );
 };
 
-export default WithSwapiService(PlanetDetails);
+const mapMethodsToProps = (swapiService) => {
+  return {
+    getData: swapiService.getPlanet,
+    getImageUrl: swapiService.getPlanetImage
+  }
+};
+
+export default WithSwapiService(PlanetDetails, mapMethodsToProps);

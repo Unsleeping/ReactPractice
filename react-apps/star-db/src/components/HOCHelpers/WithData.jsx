@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Loader from '../Loader';
 import ErrorIndicator from '../ErrorIndicator';
 
-const WithData = (View, getData) => {
+const WithData = (View) => {
   return class extends Component {
     state = {
       itemList: null,
@@ -14,7 +14,7 @@ const WithData = (View, getData) => {
     }
   
     componentDidMount() {
-      getData()
+      this.props.getData()
         .then((itemList) => {
           this.setState({
             itemList
