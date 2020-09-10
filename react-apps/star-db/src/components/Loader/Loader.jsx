@@ -10,6 +10,6 @@ const override = css`
 
 const Loader = ({ loading }) => {
   return <CircleLoader css={override} size={150} color={"teal"} loading={loading}/>;
-}
+};
 
 export default Loader;

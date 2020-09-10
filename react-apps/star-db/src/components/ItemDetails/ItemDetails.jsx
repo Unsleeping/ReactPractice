@@ -62,6 +62,6 @@ export default class ItemDetails extends Component {
           </ul>
         </div>
       </div>
-    )
+    );
   }
 }

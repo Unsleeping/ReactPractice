@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './WithData.scss';
 import Loader from '../Loader';
 import ErrorIndicator from '../ErrorIndicator';
 
@@ -36,7 +35,7 @@ const WithData = (View, getData) => {
 
       return <View {...this.props} data={itemList} />;
     }
-  };
+  }
 };
 
 export default WithData;

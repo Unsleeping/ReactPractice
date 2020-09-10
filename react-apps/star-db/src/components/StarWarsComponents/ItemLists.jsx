@@ -1,6 +1,6 @@
 import React from 'react';
 import ItemList from '../ItemList';
-import WithData from '../HOCHelpers';
+import { WithData } from '../HOCHelpers';
 import SwapiService from '../../services/swapi-service';
 
 const swapiService = new SwapiService();
