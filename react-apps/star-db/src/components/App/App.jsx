@@ -44,17 +44,11 @@ export default class App extends Component {
 
           <StarshipDetails itemId={11}/>
 
-          <PersonList>
-            {({name}) => <span>{name}</span>}
-          </PersonList>
+          <PersonList />
 
-          <StarshipList>
-            {({name}) => <span>{name}</span>}
-          </StarshipList>
+          <StarshipList />
 
-          <PlanetList>
-            {({name}) => <span>{name}</span>}
-          </PlanetList>
+          <PlanetList />
           {/* <PeoplePage />
           
           <ItemDetails 
