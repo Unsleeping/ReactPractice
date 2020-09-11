@@ -12,14 +12,24 @@ const WithData = (View) => {
     componentDidCatch() {
       this.setState({hasError: true})
     }
-  
-    componentDidMount() {
+
+    update() {
       this.props.getData()
         .then((itemList) => {
           this.setState({
             itemList
           });
         });
+    }
+
+    componentDidUpdate(prevProps) {
+      if (this.props.getData !== prevProps.getData) {
+        this.update();
+      }
+    }
+  
+    componentDidMount() {
+      this.update();
     }
 
     render() {
