@@ -6,7 +6,8 @@ const WithData = (View) => {
   return class extends Component {
     state = {
       itemList: null,
-      hasError: false
+      hasError: false,
+      loading: true
     };
 
     componentDidCatch() {
@@ -14,11 +15,17 @@ const WithData = (View) => {
     }
 
     update() {
+      this.setState({ loading: true, hasError: false });
+
       this.props.getData()
         .then((itemList) => {
           this.setState({
-            itemList
+            itemList,
+            loading: false
           });
+        })
+        .catch(() => {
+          this.setState({ hasError: true, loading: false })
         });
     }
 
@@ -33,13 +40,13 @@ const WithData = (View) => {
     }
 
     render() {
-      if (this.state.hasError) {
+      const { itemList, loading, hasError} = this.state;
+
+      if (hasError) {
         return <ErrorIndicator />;
       }
 
-      const { itemList } = this.state;
-
-      if (!itemList) {
+      if (loading) {
         return <Loader loading={this.state.loading}/>;
       }
 

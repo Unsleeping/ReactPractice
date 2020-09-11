@@ -4,12 +4,12 @@ import './App.scss';
 import Header from '../Header';
 import RandomPlanet from '../RandomPlanet';
 import ErrorIndicator from '../ErrorIndicator';
-
 import SwapiService from '../../services/swapi-service';
 import { SwapiServiceProvider } from '../SwapiServiceContext';
 import ErrorBoundry from '../ErrorBoundry';
-
-import { PersonList, PersonDetails, PlanetList, PlanetDetails, StarshipList, StarshipDetails } from '../StarWarsComponents';
+import PeoplePage from '../Pages/PeoplePage';
+import PlanetPage from '../Pages/PlanetsPage';
+import StarshipsPage from '../Pages/StarshipsPage';
 
 export default class App extends Component {
 
@@ -35,17 +35,10 @@ export default class App extends Component {
             <Header />
             <RandomPlanet />
 
-            <PersonDetails itemId={11}/>
-
-            <PlanetDetails itemId={11}/>
-
-            <StarshipDetails itemId={11}/>
-
-            <PersonList />
-
-            <StarshipList />
-
-            <PlanetList />
+            <PeoplePage />
+            <PlanetPage />
+            <StarshipsPage />
+            
           </SwapiServiceProvider>
         </ErrorBoundry>
     );

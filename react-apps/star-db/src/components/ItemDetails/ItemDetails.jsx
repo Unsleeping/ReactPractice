@@ -48,7 +48,7 @@ export default class ItemDetails extends Component {
 
     return (
       <div className="item-details card mr-5">
-        <img className="item-image" alt="character"
+        <img className="item-image" alt="item"
           src={image} />
 
         <div className="card-body">
