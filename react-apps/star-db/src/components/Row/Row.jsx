@@ -3,7 +3,7 @@ import './Row.scss';
 
 const Row = ({left, right}) => {
   return (
-    <div className="row mb2">
+    <div className="row mb2 mx-4">
       <div className="col-md-6">
         {left}
       </div>
