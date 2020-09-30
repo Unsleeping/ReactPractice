@@ -1,25 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import './PeoplePage.scss';
 import { PersonDetails, PersonList } from '../../StarWarsComponents';
 import Row from '../../Row';
 import ErrorBoundry from '../../ErrorBoundry';
 
-export default class PeoplePage extends Component {
+const PeoplePage = ({ match, history }) => {
+  return (
+    <ErrorBoundry>
+      <Row left={<PersonList onItemSelected={(id) => history.push(id)} />} right={<PersonDetails itemId={match.params.id} />}/>
+    </ErrorBoundry>
+  );
+};
 
-  state = {
-    selectedItem: null
-  };
-
-  onItemSelected = (selectedItem) => {
-    this.setState({ selectedItem });
-  };
-
-  render() {
-    const { selectedItem } = this.state;
-    return (
-      <ErrorBoundry>
-        <Row left={<PersonList onItemSelected={this.onItemSelected} />} right={<PersonDetails itemId={selectedItem} />}/>
-      </ErrorBoundry>
-    );
-  }
-}
+export default withRouter(PeoplePage);
