@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Loader from '../Loader';
 import ErrorIndicator from '../ErrorIndicator';
 
-const WithData = (View) => {
+const withData = (View) => {
   return class extends Component {
     state = {
       itemList: null,
@@ -55,4 +55,4 @@ const WithData = (View) => {
   }
 };
 
-export default WithData;
+export default withData;

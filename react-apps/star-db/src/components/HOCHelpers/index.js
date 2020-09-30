@@ -1,6 +1,6 @@
-import WithData from './WithData';
-import WithSwapiService from './WithSwapiService';
-import WithChildFunction from './WithChildFunction';
+import withData from './withData';
+import withSwapiService from './withSwapiService';
+import withChildFunction from './withChildFunction';
 import compose from './compose';
 
-export { WithData, WithSwapiService, WithChildFunction, compose };
+export { withData, withSwapiService, withChildFunction, compose };
