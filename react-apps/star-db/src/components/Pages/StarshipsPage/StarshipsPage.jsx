@@ -1,25 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import './StarshipsPage.scss';
-import { StarshipDetails, StarshipsList } from '../../StarWarsComponents';
-import Row from '../../Row';
 import ErrorBoundry from '../../ErrorBoundry';
+import { StarshipsList } from '../../StarWarsComponents';
 
-export default class StarshipsPage extends Component {
+const StarshipsPage = ({ history }) => {
+  return (
+    <ErrorBoundry>
+      <StarshipsList onItemSelected={(itemId) => history.push(`/starships/${itemId}`)} />
+    </ErrorBoundry>
+  );
+};
 
-  state = {
-    selectedItem: null
-  };
-
-  onItemSelected = (selectedItem) => {
-    this.setState({ selectedItem });
-  };
-
-  render() {
-    const { selectedItem } = this.state;
-    return (
-      <ErrorBoundry>
-        <Row left={<StarshipsList onItemSelected={this.onItemSelected} />} right={<StarshipDetails itemId={selectedItem} />}/>
-      </ErrorBoundry>
-    );
-  }
-}
+export default withRouter(StarshipsPage);
