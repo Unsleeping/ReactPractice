@@ -7,7 +7,7 @@ import { StarshipsList } from '../../StarWarsComponents';
 const StarshipsPage = ({ history }) => {
   return (
     <ErrorBoundry>
-      <StarshipsList onItemSelected={(itemId) => history.push(`/starships/${itemId}`)} />
+      <StarshipsList onItemSelected={(id) => history.push(id)} />
     </ErrorBoundry>
   );
 };
