@@ -36,6 +36,7 @@ export default class App extends Component {
           <Router>
             <Header />
             <RandomPlanet />
+            <Route exact path="/" render={() => <h2>Welcome to StarDB</h2>} />
             <Route path="/people" component={PeoplePage} />
             <Route path="/planets" component={PlanetPage} />
             <Route path="/starships" component={StarshipsPage} />
