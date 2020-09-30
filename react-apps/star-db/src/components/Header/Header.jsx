@@ -20,6 +20,12 @@ const Header = () => {
         <li>
           <Link to="/starships/">Starships</Link>
         </li>
+        <li>
+          <Link to="/secret">Secret</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
       </ul>
     </div>
   );

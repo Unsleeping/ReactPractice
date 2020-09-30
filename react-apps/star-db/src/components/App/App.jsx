@@ -10,6 +10,8 @@ import ErrorBoundry from '../ErrorBoundry';
 import PeoplePage from '../Pages/PeoplePage';
 import PlanetPage from '../Pages/PlanetsPage';
 import StarshipsPage from '../Pages/StarshipsPage';
+import SecretPage from '../Pages/SecretPage';
+import LoginPage from '../Pages/LoginPage';
 import { StarshipDetails } from '../StarWarsComponents';
 import { SwapiServiceProvider } from '../SwapiServiceContext';
 
@@ -18,7 +20,12 @@ export default class App extends Component {
   swapiService = new SwapiService();
 
   state = {
-    hasError: false
+    hasError: false,
+    isLoggedIn: false
+  };
+
+  onLogin = () => {
+    this.setState({ isLoggedIn: true })
   };
 
   componentDidCatch() {
@@ -26,8 +33,9 @@ export default class App extends Component {
   }
 
   render(){
+    const { hasError, isLoggedIn } = this.state;
 
-    if (this.state.hasError) {
+    if (hasError) {
       return <ErrorIndicator />;
     }
 
@@ -41,6 +49,8 @@ export default class App extends Component {
             <Route path="/people/:id?" component={PeoplePage} />
             <Route path="/planets" component={PlanetPage} />
             <Route exact path="/starships" component={StarshipsPage} />
+            <Route path="/login" render={() => <LoginPage isLoggedIn={isLoggedIn} onLogin={this.onLogin} />} />
+            <Route path="/secret" render={() => <SecretPage isLoggedIn={isLoggedIn} />} />
             <Route path="/starships/:id" render={({ match }) => {
               const { id } = match.params;
               return <StarshipDetails itemId={id} />;
