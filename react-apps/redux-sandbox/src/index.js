@@ -1,5 +1,5 @@
 import { createStore, bindActionCreators } from 'redux';
-import { inc, dec, rnd } from './actions';
+import * as actions from './actions';
 import reducer from './reducer';
 
 const store = createStore(reducer);
@@ -7,25 +7,21 @@ const { dispatch, getState, subscribe } = store;
 
 // const bindActionCreator = (creator, dispatch) => (...args) => dispatch(creator(...args));
 
-const { incDispatch, decDispatch, rndDispatch } = bindActionCreators({
-  incDispatch: inc,
-  decDispatch: dec,
-  rndDispatch: rnd
-}, dispatch);
+const { inc, dec, rnd } = bindActionCreators(actions, dispatch);
 
 document
   .getElementById('inc')
-  .addEventListener('click', incDispatch);
+  .addEventListener('click', inc);
 
 document
   .getElementById('dec')
-  .addEventListener('click', decDispatch);
+  .addEventListener('click', dec);
 
 document
   .getElementById('rnd')
   .addEventListener('click', () => {
     const payload = Math.floor(Math.random() * 10 + 1);
-    rndDispatch(payload);
+    rnd(payload);
   });
 
 const update = () => {
