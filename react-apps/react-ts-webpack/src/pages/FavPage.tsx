@@ -13,16 +13,16 @@ export default function FavPage(): JSX.Element {
     episodes: state.favourites,
     store: { state, dispatch },
     toggleFavAction,
-    favourites: state.favourites
+    favourites: state.favourites,
   };
 
   return (
     <App>
       <Suspense fallback={<div>loading...</div>}>
-        <div className='episode-layout'>
+        <div className="episode-layout">
           <EpisodesList {...props} />
         </div>
       </Suspense>
     </App>
   );
-};
+}

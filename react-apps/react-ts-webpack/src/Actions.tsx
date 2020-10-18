@@ -1,21 +1,26 @@
 import { IAction, IEpisode, IState, Dispatch } from './types/interfaces';
 
 export const fetchDataAction = async (dispatch: Dispatch) => {
-  const URL = 'https://api.tvmaze.com/singlesearch/shows?q=la-casa-de-papel&embed=episodes';
+  const URL =
+    'https://api.tvmaze.com/singlesearch/shows?q=la-casa-de-papel&embed=episodes';
   const data = await fetch(URL);
   const dataJSON = await data.json();
   return dispatch({
     type: 'FETCH_DATA',
-    payload: dataJSON._embedded.episodes
+    payload: dataJSON._embedded.episodes,
   });
-}
+};
 //Add IState withits type
-export const toggleFavAction = (state: IState, dispatch: any, episode: IEpisode | any): IAction => {
+export const toggleFavAction = (
+  state: IState,
+  dispatch: any,
+  episode: IEpisode | any
+): IAction => {
   const episodeInFav = state.favourites.includes(episode);
 
   let dispatchObj = {
     type: 'ADD_FAV',
-    payload: episode
+    payload: episode,
   };
 
   if (episodeInFav) {
@@ -24,9 +29,9 @@ export const toggleFavAction = (state: IState, dispatch: any, episode: IEpisode 
     );
     dispatchObj = {
       type: 'REMOVE_FAV',
-      payload: favWithoutEpisode
+      payload: favWithoutEpisode,
     };
   }
-  
+
   return dispatch(dispatchObj);
 };
