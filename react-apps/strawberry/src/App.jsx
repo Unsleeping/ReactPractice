@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTokenFromLocalStorage } from './utils/utils';
 import checkToken from './services/checkToken';
@@ -6,13 +7,16 @@ import { setAuthenticationState } from './redux/ducks/authentication';
 import { ROUTE_NAMES } from './constants/routeNames';
 import './App.scss';
 
-import ProjectList from './pages/ProjectList';
+import SearchList from './pages/SearchList';
+import Signup from './pages/Authentication/Signup';
 import Signin from './pages/Authentication/Signin';
-import Login from './pages/Authentication/Login';
 import PageNotFound from './pages/PageNotFound';
 import WelcomePage from './pages/WelcomePage';
+import ResultPage from './pages/ResultPage';
+import NewSearch from './pages/SearchList/NewSearch';
 
 import Loader from './components/Loader';
+import Footer from './components/Footer';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
@@ -21,37 +25,49 @@ const App = () => {
     (state) => state.authenticationReducer
   );
 
-  useEffect(async () => {
-    getTokenFromLocalStorage();
-    if (window.token && !isAuthenticated) {
-      const result = await checkToken();
-      if (result.detail !== 'Invalid token.')
-        dispatch(setAuthenticationState(true));
-    }
+  setTimeout(() => {
     setLoadedState(true);
-  }, []);
+  }, 1000);
+
+  // useEffect(async () => {
+  //   getTokenFromLocalStorage();
+  //   if (window.token && !isAuthenticated) {
+  //     const result = await checkToken();
+  //     if (result.detail !== 'Invalid token.')
+  //       dispatch(setAuthenticationState(true));
+  //   }
+  //   setLoadedState(true);
+  // }, []);
 
   const renderRoutes = () => {
     const { AUTHORISET, root, wrongPage } = ROUTE_NAMES;
-    const { projectList } = AUTHORISET;
+    const { searchList, resultPage, newSearch } = AUTHORISET;
 
     if (isAuthenticated) {
       return (
-        <>
-          <ProjectList path={projectList} component={ProjectList} />
-          <PageNotFound path={wrongPage} />
-        </>
+        <Switch>
+          <Route exact path={searchList} component={SearchList} />
+          <Route exact path={resultPage} component={ResultPage} />
+          <Route exact path={newSearch} component={NewSearch} />
+          <Route path={wrongPage} component={PageNotFound} />
+        </Switch>
       );
     }
     return (
-      <>
-        <WelcomePage path={root} />
-        <Login path="/login" />
-        <Signin path="/signin" />
-        <PageNotFound path={wrongPage} />
-      </>
+      <Switch>
+        <Route exact path={root} component={WelcomePage} />
+        <Route path="/signin" component={Signin} />
+        <Route path="/signup" component={Signup} />
+        <Route path={wrongPage} component={PageNotFound} />
+      </Switch>
     );
   };
-  return <div className="App">{isLoaded ? renderRoutes() : <Loader />}</div>;
+
+  return (
+    <>
+      <div className="App">{isLoaded ? renderRoutes() : <Loader />}</div>
+      <Footer />
+    </>
+  );
 };
 export default App;
