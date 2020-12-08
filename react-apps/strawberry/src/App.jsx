@@ -16,7 +16,6 @@ import ResultPage from './pages/ResultPage';
 import NewSearch from './pages/SearchList/NewSearch';
 
 import Loader from './components/Loader';
-import Footer from './components/Footer';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
@@ -63,11 +62,6 @@ const App = () => {
     );
   };
 
-  return (
-    <>
-      <div className="App">{isLoaded ? renderRoutes() : <Loader />}</div>
-      <Footer />
-    </>
-  );
+  return <div className="App">{isLoaded ? renderRoutes() : <Loader />}</div>;
 };
 export default App;

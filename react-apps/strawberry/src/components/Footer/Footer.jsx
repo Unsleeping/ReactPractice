@@ -8,7 +8,6 @@ import Link from '@material-ui/core/Link';
 const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary">
-      {'Copyright © '}
       <Link color="inherit" href="https://agro-code.ru/">
         agro-code
       </Link>{' '}
