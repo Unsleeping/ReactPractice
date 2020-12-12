@@ -5,8 +5,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -94,9 +92,11 @@ const SignUp = ({ history }) => {
           getTokenFromLocalStorage();
           dispatch(setAuthenticationState(true));
           history.push('/');
-        }
-        if (!response.success)
-          setErrorMessage('Проблемы с сервером, попробуйте позже');
+        } else if (response.email)
+          setErrorMessage(
+            'Пользователь с данной электронной почтой уже зарегистрирован'
+          );
+        else setErrorMessage('Проблемы с сервером, попробуйте позже');
       }
     }
   };
@@ -218,12 +218,6 @@ const SignUp = ({ history }) => {
                   autoComplete="current-password"
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid> */}
             </Grid>
             <Button
               disabled={
@@ -240,7 +234,7 @@ const SignUp = ({ history }) => {
               className={classes.submit}
               onClick={onSignupClick}
             >
-              'Зарегистрироваться'
+              Зарегистрироваться
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
