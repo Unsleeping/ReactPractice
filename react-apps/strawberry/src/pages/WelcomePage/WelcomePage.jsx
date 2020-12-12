@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -12,11 +13,23 @@ const WelcomePage = () => {
         <Header />
         <div className="WelcomePage-wrapper">
           <h1>Добро пожаловать на наш сайт</h1>
-          <Link to="/signup" className="reset-link">
-            <Button type="button" variant="outlined" color="primary">
-              Начать использовать
-            </Button>
-          </Link>
+          <h4>Авторизируйтесь, чтобы начать использовать</h4>
+          <Grid container spacing={2} justify="center">
+            <Grid item>
+              <Link to="/signup" className="reset-link">
+                <Button type="button" variant="contained" color="primary">
+                  Зарегистрироваться
+                </Button>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to="/signin" className="reset-link">
+                <Button type="button" variant="outlined" color="primary">
+                  Войти
+                </Button>
+              </Link>
+            </Grid>
+          </Grid>
         </div>
       </div>
       <Footer />
