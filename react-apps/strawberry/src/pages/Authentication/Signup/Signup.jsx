@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 // import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { signup } from '../../../services/authentication';
@@ -239,13 +240,18 @@ const SignUp = ({ history }) => {
               className={classes.submit}
               onClick={onSignupClick}
             >
-              {isSendingRequest ? '...' : 'Зарегистрироваться'}
+              'Зарегистрироваться'
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
                 <Link to="/signin">Уже есть аккаунт? Войти</Link>
               </Grid>
             </Grid>
+            {isSendingRequest && (
+              <Grid container justify="center">
+                <CircularProgress />
+              </Grid>
+            )}
           </form>
         </div>
       </Container>
