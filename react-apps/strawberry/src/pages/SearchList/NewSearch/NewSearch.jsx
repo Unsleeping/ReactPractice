@@ -9,7 +9,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import AddressForm from './AdressForm';
+import SearchForm from './SearchForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import './NewSearch.scss';
@@ -51,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Поиск', 'Payment details', 'Review your order'];
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <SearchForm />;
     case 1:
       return <PaymentForm />;
     case 2:
@@ -84,7 +84,7 @@ export default function Checkout() {
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Company name
+            SmartSupply
           </Typography>
         </Toolbar>
       </AppBar>
@@ -127,7 +127,7 @@ export default function Checkout() {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Place order' : 'Далее'}
                   </Button>
                 </div>
               </React.Fragment>

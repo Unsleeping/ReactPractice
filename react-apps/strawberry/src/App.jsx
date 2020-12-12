@@ -13,7 +13,7 @@ import Signin from './pages/Authentication/Signin';
 import PageNotFound from './pages/PageNotFound';
 import WelcomePage from './pages/WelcomePage';
 import ResultPage from './pages/ResultPage';
-import NewSearch from './pages/SearchList/NewSearch';
+import SearchForm from './pages/SearchList/NewSearch/SearchForm';
 
 import Loader from './components/Loader';
 
@@ -42,12 +42,12 @@ const App = () => {
     const { AUTHORISET, root, wrongPage } = ROUTE_NAMES;
     const { searchList, resultPage, newSearch } = AUTHORISET;
 
-    if (isAuthenticated) {
+    if (!isAuthenticated) {
       return (
         <Switch>
           {/* <Route exact path={searchList} component={SearchList} /> */}
           <Route exact path={resultPage} component={ResultPage} />
-          <Route exact path={newSearch} component={NewSearch} />
+          <Route exact path={newSearch} component={SearchForm} />
           <Route path={wrongPage} component={PageNotFound} />
         </Switch>
       );
