@@ -1,7 +1,7 @@
 export const ROUTE_NAMES = {
   AUTHORISET: {
     searchList: '/',
-    newSearch: '/search',
+    newSearch: '/',
     resultPage: '/result',
   },
   root: '/',

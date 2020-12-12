@@ -45,7 +45,7 @@ const App = () => {
     if (isAuthenticated) {
       return (
         <Switch>
-          <Route exact path={searchList} component={SearchList} />
+          {/* <Route exact path={searchList} component={SearchList} /> */}
           <Route exact path={resultPage} component={ResultPage} />
           <Route exact path={newSearch} component={NewSearch} />
           <Route path={wrongPage} component={PageNotFound} />
