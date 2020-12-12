@@ -4,7 +4,7 @@ const checkToken = async () => {
   try {
     const rawResponse = await fetch(API_URL + '/check-token', {
       headers: {
-        Authorization: `Token: ${window.token}`,
+        Authorization: `Bearer ${window.token}`,
       },
     });
     const response = rawResponse.json();

@@ -7,13 +7,12 @@ import { setAuthenticationState } from './redux/ducks/authentication';
 import { ROUTE_NAMES } from './constants/routeNames';
 import './App.scss';
 
-import SearchList from './pages/SearchList';
 import Signup from './pages/Authentication/Signup';
 import Signin from './pages/Authentication/Signin';
 import PageNotFound from './pages/PageNotFound';
 import WelcomePage from './pages/WelcomePage';
 import ResultPage from './pages/ResultPage';
-import SearchForm from './pages/SearchList/NewSearch/SearchForm';
+import SearchForm from './pages/SearchForm/';
 
 import Loader from './components/Loader';
 
@@ -24,28 +23,23 @@ const App = () => {
     (state) => state.authenticationReducer
   );
 
-  setTimeout(() => {
+  useEffect(async () => {
+    getTokenFromLocalStorage();
+    if (window.token && !isAuthenticated) {
+      // const result = await checkToken();
+      // if (result.detail !== 'Invalid token.')
+      dispatch(setAuthenticationState(true));
+    }
     setLoadedState(true);
-  }, 1000);
-
-  // useEffect(async () => {
-  //   getTokenFromLocalStorage();
-  //   if (window.token && !isAuthenticated) {
-  //     const result = await checkToken();
-  //     if (result.detail !== 'Invalid token.')
-  //       dispatch(setAuthenticationState(true));
-  //   }
-  //   setLoadedState(true);
-  // }, []);
+  }, []);
 
   const renderRoutes = () => {
     const { AUTHORISET, root, wrongPage } = ROUTE_NAMES;
-    const { searchList, resultPage, newSearch } = AUTHORISET;
+    const { resultPage, newSearch } = AUTHORISET;
 
-    if (!isAuthenticated) {
+    if (isAuthenticated) {
       return (
         <Switch>
-          {/* <Route exact path={searchList} component={SearchList} /> */}
           <Route exact path={resultPage} component={ResultPage} />
           <Route exact path={newSearch} component={SearchForm} />
           <Route path={wrongPage} component={PageNotFound} />

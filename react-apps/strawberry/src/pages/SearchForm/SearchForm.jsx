@@ -12,9 +12,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import { emptyChecker } from '../../../utils/utils';
-import { search } from '../../../services/search';
-import { CITIES, REGIONS } from './newSearch.constants';
+import { emptyChecker } from '../../utils/utils';
+import { search } from '../../services/search';
+import { CITIES, REGIONS } from './SearchForm.constants';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -52,27 +52,31 @@ const SearchForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isErrorRegion, setIsErrorRegion] = useState(false);
   const [isErrorCity, setIsErrorCity] = useState(false);
-  const [isErrorSubstance, setIsErrorSubstance] = useState(false);
 
   const [state, setState] = useState({
     checkedPrice: false,
-    checkedSpeed: false,
+    checkedSpeed: true,
   });
 
   const validateInputs = () => {
     if (!region) setIsErrorRegion(true);
     if (!city) setIsErrorCity(true);
-    if (!substance) setIsErrorSubstance(true);
   };
 
   useEffect(() => {
     setIsSendingRequest(false);
   }, [errorMessage]);
 
-  const onChangeHandler = (event, setter, validator, errorSetter) => {
+  const onChangeHandler = (
+    event,
+    setter,
+    validator,
+    errorSetter,
+    newValue = null
+  ) => {
     setErrorMessage('');
     if (validator(event.target.value)) errorSetter(false);
-    setter(event.target.value);
+    setter(newValue ? newValue : event.target.value);
   };
 
   const handleChange = (event) => {
@@ -81,7 +85,7 @@ const SearchForm = () => {
 
   const onSearchClick = async () => {
     validateInputs();
-    if (region && city && substance && !errorMessage) {
+    if (region && city && !errorMessage) {
       if (isSendingRequest === false) {
         setIsSendingRequest(true);
         const response = await search({
@@ -92,24 +96,15 @@ const SearchForm = () => {
           price_priority: state.checkedSpeed,
           distance_priority: state.checkedSpeed,
         });
-        console.log({
-          company_region: region,
-          company_town: city,
-          substance: substance,
-          min_order: quantity ? quantity : 0,
-          price_priority: state.checkedSpeed,
-          distance_priority: state.checkedSpeed,
-        });
-        // if (response.token) {
-        //   saveTokenToLocalStorage(response.token);
-        //   getTokenFromLocalStorage();
-        //   dispatch(setAuthenticationState(true));
-        //   history.push('/');
-        // }
-        // if (!response.success)
-        //   setErrorMessage('Проблемы с сервером, попробуйте позже');
+        if (!response.success)
+          setErrorMessage('Проблемы с сервером, попробуйте позже');
       }
     }
+  };
+
+  const onCloseHandler = (setter) => {
+    setErrorMessage('');
+    setter(false);
   };
 
   return (
@@ -139,23 +134,24 @@ const SearchForm = () => {
                 disableCloseOnSelect
                 openOnFocus
                 blurOnSelect
-                onClose={() => setIsErrorRegion(false)}
+                onClose={() => onCloseHandler(setIsErrorRegion)}
+                inputValue={region}
+                onInputChange={(event, newValue) =>
+                  onChangeHandler(
+                    event,
+                    setRegion,
+                    emptyChecker,
+                    setIsErrorRegion,
+                    newValue
+                  )
+                }
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Субъект"
                     variant="outlined"
                     required
-                    value={region}
                     error={isErrorRegion}
-                    onChange={(event) =>
-                      onChangeHandler(
-                        event,
-                        setRegion,
-                        emptyChecker,
-                        setIsErrorRegion
-                      )
-                    }
                     helperText={isErrorRegion && 'Субъект обязателен'}
                   />
                 )}
@@ -169,7 +165,17 @@ const SearchForm = () => {
                 disableCloseOnSelect
                 openOnFocus
                 blurOnSelect
-                onClose={() => setIsErrorCity(false)}
+                onInputChange={(event, newValue) =>
+                  onChangeHandler(
+                    event,
+                    setCity,
+                    emptyChecker,
+                    setIsErrorCity,
+                    newValue
+                  )
+                }
+                inputValue={city}
+                onClose={() => onCloseHandler(setIsErrorCity)}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -177,15 +183,6 @@ const SearchForm = () => {
                     variant="outlined"
                     required
                     error={isErrorCity}
-                    onChange={(event) => {
-                      onChangeHandler(
-                        event,
-                        setCity,
-                        emptyChecker,
-                        setIsErrorCity
-                      );
-                    }}
-                    value={city}
                     helperText={isErrorCity && 'Районный центр обязателен'}
                   />
                 )}
@@ -199,26 +196,22 @@ const SearchForm = () => {
                 disableCloseOnSelect
                 openOnFocus
                 blurOnSelect
-                onClose={() => setIsErrorSubstance(false)}
+                inputValue={substance}
+                onInputChange={(event, newValue) =>
+                  onChangeHandler(
+                    event,
+                    setSubstance,
+                    emptyChecker,
+                    () => {},
+                    newValue
+                  )
+                }
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Активное вещество"
                     variant="outlined"
-                    required
-                    value={substance}
-                    onChange={(event) => {
-                      onChangeHandler(
-                        event,
-                        setSubstance,
-                        emptyChecker,
-                        setIsErrorSubstance
-                      );
-                    }}
-                    error={isErrorSubstance}
-                    helperText={
-                      isErrorSubstance && 'Активное вещество обязательно'
-                    }
+                    helperText={errorMessage}
                   />
                 )}
               />
@@ -261,12 +254,7 @@ const SearchForm = () => {
             </Grid>
             <Grid item xs={12} sm={12}>
               <Button
-                disabled={
-                  !!errorMessage ||
-                  isErrorCity ||
-                  isErrorRegion ||
-                  isErrorSubstance
-                }
+                disabled={!!errorMessage || isErrorCity || isErrorRegion}
                 size="large"
                 variant="contained"
                 color="primary"
