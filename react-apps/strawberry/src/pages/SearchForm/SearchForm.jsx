@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchForm = () => {
+const SearchForm = ({ history }) => {
   const classes = useStyles();
   const [isSendingRequest, setIsSendingRequest] = useState(false);
   const [region, setRegion] = useState('');
@@ -68,20 +69,33 @@ const SearchForm = () => {
     setIsSendingRequest(false);
   }, [errorMessage]);
 
-  const onChangeHandler = (
-    event,
-    setter,
-    validator,
-    errorSetter,
-    newValue = null
-  ) => {
+  const onChangeSuperHandler = (setter, validator, errorSetter, newValue) => {
+    setErrorMessage('');
+    if (validator(newValue)) errorSetter(false);
+    setter(newValue);
+  };
+
+  const onChangeHandler = (event, setter, validator, errorSetter) => {
     setErrorMessage('');
     if (validator(event.target.value)) errorSetter(false);
-    setter(newValue ? newValue : event.target.value);
+    setter(event.target.value);
   };
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  const getRequestBody = (substance, product) => {
+    const tempObj = {
+      company_region: region,
+      company_town: city,
+      min_order: quantity ? quantity : 0,
+      price_priority: state.checkedSpeed,
+      distance_priority: state.checkedSpeed,
+    };
+    if (substance) return { ...tempObj, substance: substance };
+    if (product) return { ...tempObj, product: product };
+    return tempObj;
   };
 
   const onSearchClick = async () => {
@@ -89,15 +103,11 @@ const SearchForm = () => {
     if (region && city && !errorMessage) {
       if (isSendingRequest === false) {
         setIsSendingRequest(true);
-        const response = await search({
-          company_region: region,
-          company_town: city,
-          substance: substance,
-          min_order: quantity ? quantity : 0,
-          price_priority: state.checkedSpeed,
-          distance_priority: state.checkedSpeed,
-          product: product ? product : 0,
-        });
+        console.log(getRequestBody(substance, product));
+        const response = await search(getRequestBody(substance, product));
+        if (response.success) {
+          history.push('/result');
+        }
         if (!response.success)
           setErrorMessage('Проблемы с сервером, попробуйте позже');
       }
@@ -139,9 +149,8 @@ const SearchForm = () => {
                 noOptionsText={'Убедитесь в правильности ввода'}
                 onClose={() => onCloseHandler(setIsErrorRegion)}
                 inputValue={region}
-                onInputChange={(event, newValue) =>
-                  onChangeHandler(
-                    event,
+                onInputChange={(_, newValue) =>
+                  onChangeSuperHandler(
                     setRegion,
                     emptyChecker,
                     setIsErrorRegion,
@@ -169,9 +178,8 @@ const SearchForm = () => {
                 openOnFocus
                 blurOnSelect
                 noOptionsText={'Убедитесь в правильности ввода'}
-                onInputChange={(event, newValue) =>
-                  onChangeHandler(
-                    event,
+                onInputChange={(_, newValue) =>
+                  onChangeSuperHandler(
                     setCity,
                     emptyChecker,
                     setIsErrorCity,
@@ -202,9 +210,8 @@ const SearchForm = () => {
                 blurOnSelect
                 inputValue={substance}
                 noOptionsText={'Убедитесь в правильности ввода'}
-                onInputChange={(event, newValue) =>
-                  onChangeHandler(
-                    event,
+                onInputChange={(_, newValue) =>
+                  onChangeSuperHandler(
                     setSubstance,
                     emptyChecker,
                     () => {},
@@ -291,4 +298,4 @@ const SearchForm = () => {
   );
 };
 
-export default SearchForm;
+export default withRouter(SearchForm);
