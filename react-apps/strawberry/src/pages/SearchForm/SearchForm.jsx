@@ -136,6 +136,7 @@ const SearchForm = () => {
                 disableCloseOnSelect
                 openOnFocus
                 blurOnSelect
+                noOptionsText={'Убедитесь в правильности ввода'}
                 onClose={() => onCloseHandler(setIsErrorRegion)}
                 inputValue={region}
                 onInputChange={(event, newValue) =>
@@ -167,6 +168,7 @@ const SearchForm = () => {
                 disableCloseOnSelect
                 openOnFocus
                 blurOnSelect
+                noOptionsText={'Убедитесь в правильности ввода'}
                 onInputChange={(event, newValue) =>
                   onChangeHandler(
                     event,
@@ -199,6 +201,7 @@ const SearchForm = () => {
                 openOnFocus
                 blurOnSelect
                 inputValue={substance}
+                noOptionsText={'Убедитесь в правильности ввода'}
                 onInputChange={(event, newValue) =>
                   onChangeHandler(
                     event,
