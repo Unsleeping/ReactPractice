@@ -49,6 +49,7 @@ const SearchForm = () => {
   const [city, setCity] = useState('');
   const [substance, setSubstance] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [product, setProduct] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isErrorRegion, setIsErrorRegion] = useState(false);
   const [isErrorCity, setIsErrorCity] = useState(false);
@@ -95,6 +96,7 @@ const SearchForm = () => {
           min_order: quantity ? quantity : 0,
           price_priority: state.checkedSpeed,
           distance_priority: state.checkedSpeed,
+          product: product ? product : 0,
         });
         if (!response.success)
           setErrorMessage('Проблемы с сервером, попробуйте позже');
@@ -225,6 +227,17 @@ const SearchForm = () => {
                 value={quantity}
                 onChange={(event) => {
                   onChangeHandler(event, setQuantity, emptyChecker, () => {});
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                fullWidth
+                label="Торговое название"
+                variant="outlined"
+                value={product}
+                onChange={(event) => {
+                  onChangeHandler(event, setProduct, emptyChecker, () => {});
                 }}
               />
             </Grid>
