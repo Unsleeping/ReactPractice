@@ -1,9 +1,8 @@
 import { API_URL } from '../constants/constants';
 
 export const signin = async (body) => {
-  // http://127.0.0.1:8000/api-registration/
   try {
-    const rawResponse = await fetch(`${API_URL}/api-registration/`, {
+    const rawResponse = await fetch(`${API_URL}/api/signin`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -17,10 +16,9 @@ export const signin = async (body) => {
   }
 };
 
-export const login = async (body) => {
-  // http://127.0.0.1:8000/api-login/
+export const signup = async (body) => {
   try {
-    const rawResponse = await fetch(`${API_URL}/api-login/`, {
+    const rawResponse = await fetch(`${API_URL}/api/signup`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
