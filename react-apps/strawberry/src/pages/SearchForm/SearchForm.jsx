@@ -15,7 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { emptyChecker } from '../../utils/utils';
 import { search } from '../../services/search';
-import { CITIES, REGIONS } from './SearchForm.constants';
+import { CITIES, REGIONS, SUBSTANCES } from './SearchForm.constants';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -93,8 +93,11 @@ const SearchForm = ({ history }) => {
       price_priority: state.checkedSpeed,
       distance_priority: state.checkedSpeed,
     };
+    if (product && substance)
+      return { ...tempObj, product: product, substance: substance };
     if (substance) return { ...tempObj, substance: substance };
     if (product) return { ...tempObj, product: product };
+
     return tempObj;
   };
 
@@ -103,11 +106,9 @@ const SearchForm = ({ history }) => {
     if (region && city && !errorMessage) {
       if (isSendingRequest === false) {
         setIsSendingRequest(true);
-        console.log(getRequestBody(substance, product));
         const response = await search(getRequestBody(substance, product));
-        if (response.success) {
-          history.push('/result');
-        }
+        if (response.success) history.push('/result');
+
         if (!response.success)
           setErrorMessage('Проблемы с сервером, попробуйте позже');
       }
@@ -203,7 +204,7 @@ const SearchForm = ({ history }) => {
             <Grid item xs={12} sm={6}>
               <Autocomplete
                 id="combo-box-substance"
-                options={REGIONS}
+                options={SUBSTANCES}
                 clearOnBlur
                 disableCloseOnSelect
                 openOnFocus
