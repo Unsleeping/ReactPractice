@@ -14,22 +14,26 @@ const WelcomePage = () => {
         <div className="WelcomePage-wrapper">
           <h1>Добро пожаловать на наш сайт</h1>
           <h4>Авторизируйтесь, чтобы начать использовать</h4>
-          <Grid container spacing={2} justify="center">
-            <Grid item>
-              <Link to="/signup" className="reset-link">
-                <Button type="button" variant="contained" color="primary">
-                  Зарегистрироваться
-                </Button>
-              </Link>
+          <div style={{ marginBottom: '20px' }}>
+            <Grid container spacing={2} justify="center">
+              <Grid item>
+                <Link to="/signup" className="reset-link">
+                  <Button type="button" variant="contained" color="primary">
+                    Зарегистрироваться
+                  </Button>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/signin" className="reset-link">
+                  <Button type="button" variant="outlined" color="primary">
+                    Войти
+                  </Button>
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link to="/signin" className="reset-link">
-                <Button type="button" variant="outlined" color="primary">
-                  Войти
-                </Button>
-              </Link>
-            </Grid>
-          </Grid>
+          </div>
+          <h2>Более 600 уникальных поставщиков</h2>
+          <h2>Более 3500 уникальных предложений</h2>
         </div>
       </div>
       <Footer />
