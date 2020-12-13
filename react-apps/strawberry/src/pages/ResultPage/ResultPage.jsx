@@ -24,33 +24,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Loader from '../../components/Loader';
 import Footer from '../../components/Footer';
 
-// const mockData = [
-//   {
-//     id: '4120e42d-f93d-4b93-aae7-56d0f80bb717',
-//     name_product:
-//       'Минеральные удобрения. Сера, селитра, карбамид, npk, dap, map. Возможен экспорт',
-//     product_link:
-//       'https://agro-russia.com/ru/trade/m-217177/mineralnye-udobreniya-sera-selitra-karbamid-npk-dap-map-vozmozhen-ehksport/',
-//     product_image: 'https://agro-russia.com/imgs/board/17/232117-1s.jpg',
-//     price: 'nan',
-//     company_name: 'Григорий Алексеевич (частное лицо)',
-//     company_region: 'г. Москва',
-//     min_order: 'nan',
-//     delivery: 'nan',
-//     company_link: 'nan',
-//     company_image: 'nan',
-//     coordinates: [55.728708, 37.6449505261],
-//     substance: 'азот фосфор калий',
-//     proportion: 'nan',
-//     source: 'AgroRussia',
-//     product_text: 'nan',
-//     name_product_edit:
-//       'минеральные удобрения. сера, селитра, карбамид, npk, dap, map. возможен экспорт',
-//     distance: 81.65498811776119,
-//     rank: 21.5,
-//   },
-// ];
-
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
