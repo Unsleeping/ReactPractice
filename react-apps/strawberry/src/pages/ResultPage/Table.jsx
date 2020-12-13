@@ -82,7 +82,7 @@ const headCells = [
     label: 'Описание товара',
   },
   {
-    id: 'company_distance',
+    id: 'distance',
     numeric: false,
     disablePadding: false,
     label: 'Расстояние до поставщика',
@@ -263,7 +263,7 @@ export default function EnhancedTable({ data }) {
                             {row.product_text || 'mocks'}
                           </TableCell>
                           <TableCell align="left">
-                            {row.company_distance || 'mocks'}
+                            {row.distance || 'mocks'}
                           </TableCell>
                         </TableRow>
                       );

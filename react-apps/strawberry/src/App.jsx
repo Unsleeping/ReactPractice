@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTokenFromLocalStorage } from './utils/utils';
-import checkToken from './services/checkToken';
+// import checkToken from './services/checkToken';
 import { setAuthenticationState } from './redux/ducks/authentication';
 import { ROUTE_NAMES } from './constants/routeNames';
 import './App.scss';
