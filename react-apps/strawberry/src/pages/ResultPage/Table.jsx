@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,12 +7,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { results } from '../../services/results';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import { CircularProgress } from '@material-ui/core';
+import Loader from '../../components/Loader';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -80,6 +81,12 @@ const headCells = [
     disablePadding: false,
     label: 'Описание товара',
   },
+  {
+    id: 'company_distance',
+    numeric: false,
+    disablePadding: false,
+    label: 'Расстояние до поставщика',
+  },
 ];
 
 const EnhancedTableHead = (props) => {
@@ -144,24 +151,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EnhancedTable() {
-  const [data, setData] = React.useState(null);
-
-  useEffect(async () => {
-    if (!data) {
-      const response = await results();
-      setData(response.data);
-      console.log(data);
-    }
-  }, []);
-
+export default function EnhancedTable({ data }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(30);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -206,7 +203,11 @@ export default function EnhancedTable() {
     rowsPerPage - Math.min(rowsPerPage, data?.length - page * rowsPerPage);
   return (
     <div className={classes.root}>
-      {!data && <CircularProgress />}
+      {!data && (
+        <Grid container justify="center">
+          <Loader />
+        </Grid>
+      )}
       {data && (
         <>
           <Paper className={classes.paper}>
@@ -238,7 +239,7 @@ export default function EnhancedTable() {
                           onClick={(event) => handleClick(event, row.name)}
                           role="checkbox"
                           tabIndex={-1}
-                          key={row.name}
+                          key={`${row.name_product}_${row.id}`}
                         >
                           <TableCell component="th" id={labelId} scope="row">
                             {row.name_product}
@@ -248,9 +249,21 @@ export default function EnhancedTable() {
                           </TableCell>
                           <TableCell align="left">{row.company_name}</TableCell>
                           <TableCell align="left">{row.price}</TableCell>
-                          <TableCell align="left">{row.product_link}</TableCell>
+                          <TableCell align="left">
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              href={row.product_link}
+                              target="_blank"
+                            >
+                              Перейти на сайт поставщика
+                            </Button>
+                          </TableCell>
                           <TableCell align="left">
                             {row.product_text || 'mocks'}
+                          </TableCell>
+                          <TableCell align="left">
+                            {row.company_distance || 'mocks'}
                           </TableCell>
                         </TableRow>
                       );
@@ -264,7 +277,7 @@ export default function EnhancedTable() {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[10, 30, 50, 100]}
+              rowsPerPageOptions={[10, 25, 50]}
               component="div"
               count={data.length}
               rowsPerPage={rowsPerPage}

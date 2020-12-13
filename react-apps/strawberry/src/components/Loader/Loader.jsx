@@ -12,7 +12,7 @@ const override = css`
 const Loader = () => {
   return (
     <div className="sweet-loading">
-      <RingLoader css={override} size={200} color={'#36D7B7'} loading={true} />
+      <RingLoader css={override} size={200} color={'#1438CE'} loading={true} />
     </div>
   );
 };
