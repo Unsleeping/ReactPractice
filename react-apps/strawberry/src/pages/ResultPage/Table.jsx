@@ -158,7 +158,7 @@ export default function EnhancedTable({ data }) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -246,7 +246,11 @@ export default function EnhancedTable({ data }) {
                           <TableCell align="left">
                             {row.company_region}
                           </TableCell>
-                          <TableCell align="left">{row.company_name}</TableCell>
+                          <TableCell align="left">
+                            {row.company_name === 'nan' || !row.company_name
+                              ? 'Частное лицо'
+                              : row.company_name}
+                          </TableCell>
                           <TableCell align="left">
                             {row.price === 'nan'
                               ? 'цена по запросу'

@@ -192,6 +192,8 @@ const Album = () => {
             </Grid>
             {data &&
               data.slice(0, 3).map((card, idx) => {
+                const setter = getSetter(idx);
+                const value = getValue(idx);
                 return (
                   <Grid
                     item
@@ -230,19 +232,16 @@ const Album = () => {
                         </Button>
                         <IconButton
                           className={clsx(classes.expand, {
-                            [classes.expandOpen]: getValue(idx),
+                            [classes.expandOpen]: value,
                           })}
-                          onClick={handleExpandClick(
-                            getSetter(idx),
-                            getValue(idx)
-                          )}
-                          aria-expanded={getValue(idx)}
+                          onClick={handleExpandClick(setter, value)}
+                          aria-expanded={value}
                           aria-label="show more"
                         >
                           <ExpandMoreIcon />
                         </IconButton>
                       </CardActions>
-                      <Collapse in={getValue(idx)} timeout="auto" unmountOnExit>
+                      <Collapse in={value} timeout="auto" unmountOnExit>
                         <CardContent>
                           <Typography
                             paragraph
