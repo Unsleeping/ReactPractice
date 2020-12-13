@@ -90,7 +90,7 @@ const SearchForm = ({ history }) => {
       company_region: region,
       company_town: city,
       min_order: quantity ? quantity : 0,
-      price_priority: state.checkedSpeed,
+      price_priority: state.checkedPrice,
       distance_priority: state.checkedSpeed,
     };
     if (product && substance)
