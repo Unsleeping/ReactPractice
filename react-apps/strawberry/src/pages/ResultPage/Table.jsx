@@ -267,10 +267,17 @@ export default function EnhancedTable({ data }) {
                             </Button>
                           </TableCell>
                           <TableCell align="left">
-                            {row.product_text || 'Нет описания'}
+                            {row.product_text && row.product_text !== 'nan'
+                              ? row.product_text
+                              : 'Нет описания'}
                           </TableCell>
                           <TableCell align="left">
-                            {row.distance || 'mocks'}
+                            {Math.floor(row.distance * 1000) /
+                              (1000)
+                                .toFixed(2)
+                                .substr(0, 4)
+                                .replace(/\.$/, '') +
+                              ' км'}
                           </TableCell>
                         </TableRow>
                       );
