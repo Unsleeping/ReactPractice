@@ -101,7 +101,7 @@ const EnhancedTableHead = (props) => {
           <TableCell
             size={headCell.size || 'medium'}
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
