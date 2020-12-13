@@ -127,20 +127,6 @@ const Album = () => {
             >
               Лучшие поставщики по рейтингу SmartSupply
             </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" color="primary">
-                    Cортировать по цене
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Cортировать по близости к поставщику
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -150,6 +136,9 @@ const Album = () => {
                 <Loader />
               </Grid>
             )}
+            <Grid container justify="flex-end">
+              Данные актуальны на 13.12.2020
+            </Grid>
             {data &&
               data.slice(0, 3).map((card, idx) => (
                 <Grid
