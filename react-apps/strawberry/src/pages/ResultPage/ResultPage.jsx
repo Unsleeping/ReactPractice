@@ -69,25 +69,66 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const mockCards = [
+  {
+    company_image: 'nan',
+    company_link: 'nan',
+    company_name: 'Евгений леонидович (частное лицо)',
+    company_region: 'Краснодарский край',
+    coordinates: '[(45.7684014, 39.0261044)]',
+    delievery: 'nan',
+    id: 'b9af5840-b9c4-461a-a9fb-41ed251b6f54',
+    min_order: 'nan',
+    name_product: 'Микроэлементы в хелатной форме АГРОНОМ',
+    price: '300 руб.',
+    product_image: 'https://agro-russia.com/imgs/board/100/210800-2s.jpg',
+    product_link:
+      'https://agro-russia.com/ru/trade/m-210800/mikroehlementy-v-khelatnoj-forme-agronom/',
+    proportion: 'nan',
+    substance: 'nan',
+  },
+  {
+    company_image: 'nan',
+    company_link: 'nan',
+    company_name: 'Павел (частное лицо)',
+    company_region: 'Московская обл.',
+    coordinates: '[(55.5043158, 38.0353929)]',
+    delievery: 'nan',
+    id: '1afc94ac-f1e3-4ded-b667-945731dfee63',
+    min_order: 'nan',
+    name_product: 'Опилки (стружка)',
+    price: '280 руб.',
+    product_image: 'https://agro-russia.com/imgs/board/35/167935-3s.jpg',
+    product_link: 'https://agro-russia.com/ru/trade/m-167935/opilki-struzhka/',
+    proportion: 'nan',
+    substance: 'nan',
+  },
+];
+
 const Album = () => {
-  const [expanded, setExpanded] = React.useState({
-    0: false,
-    1: false,
-    2: false,
-  });
+  const [expandedFirst, setExpandedFirst] = React.useState(false);
+  const [expandedSecond, setExpandedSecond] = React.useState(false);
+  const [expandedThird, setExpandedThird] = React.useState(false);
   const [data, setData] = React.useState(null);
 
-  const handleExpandClick = (event, idx) => {
-    // console.log(idx);
-    // console.log({ ...expanded, [idx]: !expanded.idx });
-    setExpanded({ ...expanded, [idx]: !expanded.idx });
+  const handleExpandClick = (setter, value) => () => setter(!value);
+
+  const getValue = (idx) => {
+    if (idx === 0) return expandedFirst;
+    if (idx === 1) return expandedSecond;
+    if (idx === 2) return expandedThird;
+  };
+
+  const getSetter = (idx) => {
+    if (idx === 0) return setExpandedFirst;
+    if (idx === 1) return setExpandedSecond;
+    if (idx === 2) return setExpandedThird;
   };
 
   useEffect(async () => {
     if (!data) {
       const response = await results();
       setData(response.data);
-      console.log(response.data);
       // console.log(response.data);
     }
   }, []);
@@ -147,92 +188,84 @@ const Album = () => {
               </Grid>
             )}
             <Grid container justify="flex-end">
-              {data && data !== [] && 'Данные актуальны на 13.12.2020'}
+              {data && 'Данные актуальны на 13.12.2020'}
             </Grid>
-            {data === [] && 'По данным запросам поиска результатов нет'}
             {data &&
-              data !== [] &&
-              data.slice(0, 3).map((card, idx) => (
-                <Grid
-                  item
-                  key={`${card.name_product}_${idx}`}
-                  xs={12}
-                  sm={6}
-                  md={4}
-                >
-                  <Card className={classes.card}>
-                    <CardMedia
-                      className={classes.cardMedia}
-                      image={
-                        card.product_image === 'nan'
-                          ? require('./assets/fertilizer-2.svg').default
-                          : card.product_image
-                      }
-                    />
-                    <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {card.name_product}
-                      </Typography>
-                      <div>
-                        <Typography>{card.price}</Typography>
-                        <Typography>
-                          {card.company_distance || 'mocks distance'}
+              data.slice(0, 3).map((card, idx) => {
+                return (
+                  <Grid
+                    item
+                    key={`${card.name_product}_${idx}`}
+                    xs={12}
+                    sm={6}
+                    md={4}
+                  >
+                    <Card className={classes.card}>
+                      <CardMedia
+                        className={classes.cardMedia}
+                        image={
+                          card.product_image === 'nan' || !card.product_image
+                            ? require('./assets/fertilizer-2.svg').default
+                            : card.product_image
+                        }
+                      />
+                      <CardContent className={classes.cardContent}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {card.name_product}
                         </Typography>
-                      </div>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small" color="primary" disabled>
-                        Подробнее
-                      </Button>
-                      <IconButton
-                        className={clsx(classes.expand, {
-                          [classes.expandOpen]: expanded.idx,
-                        })}
-                        onClick={() => handleExpandClick(idx)}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                      >
-                        <ExpandMoreIcon />
-                      </IconButton>
-                    </CardActions>
-                    <Collapse in={expanded.idx} timeout="auto" unmountOnExit>
-                      <CardContent>
-                        <Typography paragraph>Method:</Typography>
-                        <Typography paragraph>
-                          Heat 1/2 cup of the broth in a pot until simmering,
-                          add saffron and set aside for 10 minutes.
-                        </Typography>
-                        <Typography paragraph>
-                          Heat oil in a (14- to 16-inch) paella pan or a large,
-                          deep skillet over medium-high heat. Add chicken,
-                          shrimp and chorizo, and cook, stirring occasionally
-                          until lightly browned, 6 to 8 minutes. Transfer shrimp
-                          to a large plate and set aside, leaving chicken and
-                          chorizo in the pan. Add pimentón, bay leaves, garlic,
-                          tomatoes, onion, salt and pepper, and cook, stirring
-                          often until thickened and fragrant, about 10 minutes.
-                          Add saffron broth and remaining 4 1/2 cups chicken
-                          broth; bring to a boil.
-                        </Typography>
-                        <Typography paragraph>
-                          Add rice and stir very gently to distribute. Top with
-                          artichokes and peppers, and cook without stirring,
-                          until most of the liquid is absorbed, 15 to 18
-                          minutes. Reduce heat to medium-low, add reserved
-                          shrimp and mussels, tucking them down into the rice,
-                          and cook again without stirring, until mussels have
-                          opened and rice is just tender, 5 to 7 minutes more.
-                          (Discard any mussels that don’t open.)
-                        </Typography>
-                        <Typography>
-                          Set aside off of the heat to let rest for 10 minutes,
-                          and then serve.
-                        </Typography>
+                        <div>
+                          <Typography>
+                            {card.price === 'nan'
+                              ? 'цена  по запросу'
+                              : card.price}
+                          </Typography>
+                          <Typography>
+                            {card.distance || 'mocks distance'}
+                          </Typography>
+                        </div>
                       </CardContent>
-                    </Collapse>
-                  </Card>
-                </Grid>
-              ))}
+                      <CardActions>
+                        <Button size="small" color="primary" disabled>
+                          Подробнее
+                        </Button>
+                        <IconButton
+                          className={clsx(classes.expand, {
+                            [classes.expandOpen]: getValue(idx),
+                          })}
+                          onClick={handleExpandClick(
+                            getSetter(idx),
+                            getValue(idx)
+                          )}
+                          aria-expanded={getValue(idx)}
+                          aria-label="show more"
+                        >
+                          <ExpandMoreIcon />
+                        </IconButton>
+                      </CardActions>
+                      <Collapse in={getValue(idx)} timeout="auto" unmountOnExit>
+                        <CardContent>
+                          <Typography
+                            paragraph
+                          >{`Поставщик: ${card.company_name}`}</Typography>
+                          <Typography
+                            paragraph
+                          >{`Субъект: ${card.company_region}`}</Typography>
+                          <Typography>{card.product_text}</Typography>
+                          <Typography>{card.distance}</Typography>
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            href={card.product_link}
+                            target="_blank"
+                          >
+                            Перейти на сайт поставщика
+                          </Button>
+                        </CardContent>
+                      </Collapse>
+                    </Card>
+                  </Grid>
+                );
+              })}
           </Grid>
         </Container>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>

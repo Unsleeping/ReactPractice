@@ -232,7 +232,6 @@ export default function EnhancedTable({ data }) {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
-
                       return (
                         <TableRow
                           hover
@@ -248,7 +247,11 @@ export default function EnhancedTable({ data }) {
                             {row.company_region}
                           </TableCell>
                           <TableCell align="left">{row.company_name}</TableCell>
-                          <TableCell align="left">{row.price}</TableCell>
+                          <TableCell align="left">
+                            {row.price === 'nan'
+                              ? 'цена по запросу'
+                              : row.price}
+                          </TableCell>
                           <TableCell align="left">
                             <Button
                               variant="outlined"
@@ -260,7 +263,7 @@ export default function EnhancedTable({ data }) {
                             </Button>
                           </TableCell>
                           <TableCell align="left">
-                            {row.product_text || 'mocks'}
+                            {row.product_text || 'Нет описания'}
                           </TableCell>
                           <TableCell align="left">
                             {row.distance || 'mocks'}
