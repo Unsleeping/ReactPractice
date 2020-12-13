@@ -69,42 +69,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mockCards = [
-  {
-    company_image: 'nan',
-    company_link: 'nan',
-    company_name: 'Евгений леонидович (частное лицо)',
-    company_region: 'Краснодарский край',
-    coordinates: '[(45.7684014, 39.0261044)]',
-    delievery: 'nan',
-    id: 'b9af5840-b9c4-461a-a9fb-41ed251b6f54',
-    min_order: 'nan',
-    name_product: 'Микроэлементы в хелатной форме АГРОНОМ',
-    price: '300 руб.',
-    product_image: 'https://agro-russia.com/imgs/board/100/210800-2s.jpg',
-    product_link:
-      'https://agro-russia.com/ru/trade/m-210800/mikroehlementy-v-khelatnoj-forme-agronom/',
-    proportion: 'nan',
-    substance: 'nan',
-  },
-  {
-    company_image: 'nan',
-    company_link: 'nan',
-    company_name: 'Павел (частное лицо)',
-    company_region: 'Московская обл.',
-    coordinates: '[(55.5043158, 38.0353929)]',
-    delievery: 'nan',
-    id: '1afc94ac-f1e3-4ded-b667-945731dfee63',
-    min_order: 'nan',
-    name_product: 'Опилки (стружка)',
-    price: '280 руб.',
-    product_image: 'https://agro-russia.com/imgs/board/35/167935-3s.jpg',
-    product_link: 'https://agro-russia.com/ru/trade/m-167935/opilki-struzhka/',
-    proportion: 'nan',
-    substance: 'nan',
-  },
-];
-
 const Album = () => {
   const [expandedFirst, setExpandedFirst] = React.useState(false);
   const [expandedSecond, setExpandedSecond] = React.useState(false);
@@ -288,7 +252,7 @@ const Album = () => {
             width={'100%'}
             state={mapState}
             center={[55.754734, 37.583314]}
-            zoom={10}
+            zoom={2}
           >
             {data.map((row, i) => {
               return (
@@ -297,8 +261,8 @@ const Album = () => {
                 row.coordinates.split(', ')[1] && (
                   <Marker
                     key={'marker_' + i}
-                    lat={row.coordinates.split(', ')[0].slice(2)}
-                    lon={row.coordinates.split(', ')[1].slice(0, -2)}
+                    lat={Number(row.coordinates.split(', ')[0].slice(2))}
+                    lon={Number(row.coordinates.split(', ')[1].slice(0, -2))}
                   >
                     <MarkerLayout>
                       <div style={markerStyles}>
