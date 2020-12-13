@@ -236,7 +236,9 @@ const Album = () => {
           </Grid>
         </Container>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          Все предложения
+          {data && data.length
+            ? `Все предложения (${data.length})`
+            : 'Все предложения'}
         </Typography>
         <div style={{ marginBottom: '50px', padding: '5px' }}>
           <CustomTable data={data} />
