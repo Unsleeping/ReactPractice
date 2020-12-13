@@ -65,7 +65,7 @@ const headCells = [
     id: 'price',
     numeric: true,
     disablePadding: false,
-    label: 'Цена',
+    label: 'Цена, ₽',
     size: 'small',
   },
   {

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Map, Marker, MarkerLayout } from 'yandex-map-react';
+import { Map, Placemark, YMaps } from 'react-yandex-maps';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -93,21 +93,29 @@ const Album = () => {
     if (!data) {
       const response = await results();
       setData(response.data);
-      // console.log(response.data);
     }
   }, []);
 
-  const markerStyles = {
-    width: '40px',
-    height: '40px',
-    overflow: 'hidden',
-    border: '1px solid orange',
-    background: '#FFF',
-    borderRadius: '50%',
+  const mapState = {
+    center: [55.754734, 37.583314],
+    zoom: 2,
   };
 
-  const mapState = {
-    controls: ['default'],
+  const [state, setState] = useState({
+    template: null,
+  });
+
+  const createTemplateLayoutFactory = (ymaps) => {
+    if (ymaps && !state.template) {
+      setState({
+        template: ymaps.templateLayoutFactory.createClass(
+          '<div class="bb">' +
+            '<span class="bb-num-org">' +
+            '</span>xzcxzcddfaa<span class="bb-name">' +
+            '</span></div>'
+        ),
+      });
+    }
   };
 
   const classes = useStyles();
@@ -155,7 +163,7 @@ const Album = () => {
               {data && 'Данные актуальны на 13.12.2020'}
             </Grid>
             {data &&
-              data.slice(0, 3).map((card, idx) => {
+              [...data].slice(0, 3).map((card, idx) => {
                 const setter = getSetter(idx);
                 const value = getValue(idx);
                 return (
@@ -247,43 +255,69 @@ const Album = () => {
             <Loader />
           </Grid>
         )}
-        {data && (
-          <Map
-            width={'100%'}
-            state={mapState}
-            center={[55.754734, 37.583314]}
-            zoom={2}
-          >
-            {data.map((row, i) => {
-              return (
-                row.coordinates &&
-                row.coordinates.split(', ')[0] &&
-                row.coordinates.split(', ')[1] && (
-                  <Marker
-                    key={'marker_' + i}
-                    lat={Number(row.coordinates.split(', ')[0].slice(2))}
-                    lon={Number(row.coordinates.split(', ')[1].slice(0, -2))}
-                  >
-                    <MarkerLayout>
-                      <div style={markerStyles}>
-                        <img
-                          src={require('./assets/fertilizer-3.svg').default}
-                          alt="faltilizer"
-                          style={{
-                            width: '30px',
-                            height: '30px',
-                            paddingLeft: '5px',
-                            paddingTop: '5px',
-                          }}
-                        />
-                      </div>
-                    </MarkerLayout>
-                  </Marker>
-                )
-              );
-            })}
-          </Map>
-        )}
+        {
+          <YMaps>
+            <Map
+              width={'100%'}
+              height={'400px'}
+              state={mapState}
+              onLoad={createTemplateLayoutFactory}
+              modules={['templateLayoutFactory', 'layout.ImageWithContent']}
+            >
+              {data &&
+                data.map((row, i) => (
+                  <Placemark
+                    geometry={[
+                      Number(row.coordinates.split(', ')[0].slice(2)),
+                      Number(row.coordinates.split(', ')[1].slice(0, -2)),
+                    ]}
+                    properties={{
+                      hintContent: `${
+                        row.company_name && row.company_name !== 'nan'
+                          ? row.company_name
+                          : 'Частное лицо'
+                      } (подробнее...)`,
+                      balloonContent: `
+                      <p>Товар: ${row.name_product}</p>
+                      <p>Цена: ${
+                        row.price && row.price !== 'nan'
+                          ? row.price + '₽'
+                          : 'По запросу'
+                      }</p>
+                      <p>Поставщик: ${
+                        row.company_name && row.company_name !== 'nan'
+                          ? row.company_name
+                          : 'По запросу'
+                      }</p>
+                      <p>Субъект: ${row.company_region}</p>
+                      <p>${
+                        row.product_text && row.product_text !== 'nan'
+                          ? row.product_text
+                          : ''
+                      }</p>
+                      <a href="${
+                        row.product_link
+                      }" target="_blank">перейти на сайт поставщика</a>
+                      `,
+                    }}
+                    modules={[
+                      'geoObject.addon.balloon',
+                      'geoObject.addon.hint',
+                    ]}
+                    options={{
+                      iconLayout: 'default#image',
+                      iconImageHref: '/images/fertilizer-3.svg',
+                      // Размеры метки.
+                      iconImageSize: [30, 42],
+                      // Смещение левого верхнего угла иконки относительно
+                      // её "ножки" (точки привязки).
+                      iconImageOffset: [-5, -38],
+                    }}
+                  />
+                ))}
+            </Map>
+          </YMaps>
+        }
       </main>
       <Footer />
     </React.Fragment>
