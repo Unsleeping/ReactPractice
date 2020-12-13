@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Map, Marker, MarkerLayout } from 'yandex-map-react';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +22,7 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Loader from '../../components/Loader';
+import Footer from '../../components/Footer';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -85,6 +87,7 @@ const Album = () => {
     if (!data) {
       const response = await results();
       setData(response.data);
+      console.log(response.data);
       // console.log(response.data);
     }
   }, []);
@@ -110,6 +113,13 @@ const Album = () => {
       <AppBar position="relative">
         <Toolbar>
           <NotListedLocationIcon className={classes.icon} />
+          <div style={{ marginRight: '8px' }}>
+            <Link to="/" className="reset-link">
+              <Button size="small" color="secondary" variant="contained">
+                Новый поиск
+              </Button>
+            </Link>
+          </div>
           <Typography variant="h6" color="inherit" noWrap>
             Результаты поиска
           </Typography>
@@ -137,9 +147,11 @@ const Album = () => {
               </Grid>
             )}
             <Grid container justify="flex-end">
-              Данные актуальны на 13.12.2020
+              {data && data !== [] && 'Данные актуальны на 13.12.2020'}
             </Grid>
+            {data === [] && 'По данным запросам поиска результатов нет'}
             {data &&
+              data !== [] &&
               data.slice(0, 3).map((card, idx) => (
                 <Grid
                   item
@@ -229,7 +241,7 @@ const Album = () => {
         <div style={{ marginBottom: '50px', padding: '5px' }}>
           <CustomTable data={data} />
         </div>
-        <Typography variant="h5" align="center" color="textSecondary" paragraph>
+        <Typography variant="h5" align="center" color="textPrimary" paragraph>
           Карта поставщиков
         </Typography>
         {!data && (
@@ -275,6 +287,7 @@ const Album = () => {
           </Map>
         )}
       </main>
+      <Footer />
     </React.Fragment>
   );
 };
